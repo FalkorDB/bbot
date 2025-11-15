@@ -74,11 +74,11 @@ class falkordb(BaseOutputModule):
                 events_by_type[event.type].append(event)
             except KeyError:
                 events_by_type[event.type] = [event]
-            
+
             # Skip parent-related operations if parent is None
             if parent is None:
                 continue
-            
+
             try:
                 parents_by_type[parent.type].append(parent)
             except KeyError:
