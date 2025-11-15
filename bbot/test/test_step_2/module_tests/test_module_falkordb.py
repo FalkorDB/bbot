@@ -5,10 +5,6 @@ class TestFalkordb(ModuleTestBase):
     config_overrides = {"modules": {"falkordb": {"host": "127.0.0.1", "port": 11111}}}
 
     async def setup_before_prep(self, module_test):
-        # install falkordb
-        deps_pip = module_test.preloaded["falkordb"]["deps"]["pip"]
-        await module_test.scan.helpers.depsinstaller.pip_install(deps_pip)
-
         self.falkordb_used = False
 
         class MockResult:
