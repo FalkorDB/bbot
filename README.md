@@ -241,6 +241,7 @@ Click the graph below to explore the [inner workings](https://www.blacklanternse
 ## Output Modules
 
 - [Neo4j](docs/scanning/output.md#neo4j)
+- [FalkorDB](docs/scanning/output.md#falkordb)
 - [Teams](docs/scanning/output.md#teams)
 - [Discord](docs/scanning/output.md#discord)
 - [Slack](docs/scanning/output.md#slack)
@@ -297,7 +298,7 @@ A [BBOT Discord Bot](https://www.blacklanternsecurity.com/bbot/Stable/dev/#disco
 - Web Screenshots
 - Suite of Offensive Web Modules
 - NLP-powered Subdomain Mutations
-- Native Output to Neo4j (and more)
+- Native Output to Neo4j, FalkorDB (and more)
 - Automatic dependency install with Ansible
 - Search entire attack surface with custom YARA rules
 - Python API + Developer Documentation
