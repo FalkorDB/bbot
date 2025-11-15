@@ -341,6 +341,82 @@ This is not an exhaustive list of clauses, filters, or other means to use cypher
 
 Additional note: these sample queries are dependent on the existence of the data in the target neo4j database.
 
+## FalkorDB
+
+FalkorDB is a fast, open-source graph database built on Redis, offering a powerful alternative for viewing and interacting with BBOT data. It uses the Cypher Query Language, making queries similar to Neo4j.
+
+- You can get FalkorDB up and running with a single docker command:
+
+```bash
+# start FalkorDB in the background with docker
+docker run -d -p 6379:6379 -p 3000:3000 -v "$(pwd)/falkordb/:/data/" --name falkordb falkordb/falkordb
+```
+
+- After that, run bbot with `-om falkordb`
+
+```bash
+bbot -f subdomain-enum -t evilcorp.com -om falkordb
+```
+
+- Access the FalkorDB Browser UI at [http://localhost:3000](http://localhost:3000)
+
+### FalkorDB Configuration
+
+You can customize the FalkorDB connection settings:
+
+```yaml title="falkordb_preset.yml"
+config:
+  modules:
+    falkordb:
+      host: localhost
+      port: 6379
+      graph: bbot
+```
+
+Or via command line:
+
+```bash
+bbot -f subdomain-enum -t evilcorp.com -om falkordb -c modules.falkordb.host=127.0.0.1 -c modules.falkordb.graph=my_scan
+```
+
+### Cypher Queries
+
+FalkorDB uses the same Cypher Query Language as Neo4j, so the same queries work with minor differences. Here are some example queries:
+
+```cypher
+// Get all "in-scope" DNS Nodes and return just data and tags properties
+MATCH (n:DNS_NAME)
+WHERE "in-scope" IN n.tags
+RETURN n.data, n.tags
+```
+
+```cypher
+// Get the count of labels/BBOT events in the FalkorDB Database
+MATCH (n)
+RETURN labels(n), count(n)
+```
+
+```cypher
+// Get a graph of open ports associated with each domain
+MATCH z = ((n:DNS_NAME) --> (p:OPEN_TCP_PORT))
+RETURN z
+```
+
+```cypher
+// Get all domains and IP addresses with open TCP ports
+MATCH (n) --> (p:OPEN_TCP_PORT)
+WHERE "in-scope" in n.tags and (n:DNS_NAME or n:IP_ADDRESS)
+WITH *, TAIL(SPLIT(p.data, ':')) AS port
+RETURN n.data, collect(distinct port)
+```
+
+```cypher
+// Clear the database
+MATCH (n) DETACH DELETE n
+```
+
+For more information about FalkorDB and advanced queries, see the [FalkorDB documentation](https://docs.falkordb.com/).
+
 ### Web_parameters
 
 The `web_parameters` output module will utilize BBOT web parameter extraction capabilities, and output the resulting parameters to a file (web_parameters.txt, by default). Web parameter extraction is disabled by default, but will automatically be enabled when a module is included that consumes WEB_PARAMETER events (including the `web_parameters` output module itself).
