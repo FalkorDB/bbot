@@ -128,7 +128,6 @@ class falkordb(BaseOutputModule):
             result = await self.graph.query(cypher, {"events": insert_data})
             # get FalkorDB ids
             for row in result.result_set:
-                event_data = row[0]
                 event_id = row[1]
                 falkordb_id = row[2]
                 falkordb_ids[event_id] = falkordb_id
