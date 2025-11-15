@@ -61,7 +61,7 @@ class falkordb(BaseOutputModule):
             await self.graph.query("MATCH () RETURN 1 LIMIT 1")
         except Exception as e:
             return False, f"Error setting up FalkorDB: {e}"
-        return True
+        return True, ""
 
     async def handle_batch(self, *all_events):
         # group events by type, since cypher doesn't allow dynamic labels
