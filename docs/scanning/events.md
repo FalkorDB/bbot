@@ -35,7 +35,7 @@ Each BBOT event has the following attributes. Not all of these attributes are vi
 - `.discovery_path`: a list of every discovery context leading to this event
 - `.parent_chain`: a list of every event UUID leading to the discovery of this event (corresponds exactly to `.discovery_path`)
 
-These attributes allow us to construct a visual graph of events (e.g. in [Neo4j](../output#neo4j)) and query/filter/grep them more easily. Here is what a typical event looks like in JSON format:
+These attributes allow us to construct a visual graph of events (e.g. in [Neo4j](../output#neo4j) or [FalkorDB](../output#falkordb)) and query/filter/grep them more easily. Here is what a typical event looks like in JSON format:
 
 ```json
 {
